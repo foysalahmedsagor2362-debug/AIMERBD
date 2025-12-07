@@ -5,7 +5,26 @@ import { Planner } from './features/Planner';
 import { Pomodoro } from './features/Pomodoro';
 import { SalatTracker } from './features/Salat';
 import { TasksManager } from './features/Tasks';
+import { AdBanner } from './components/AdBanner';
 import { StudentTrack, DailyStats, SalatRecord, Task, Exam } from './types';
+
+// ==========================================
+// 🔧 ADSENSE CONFIGURATION - EDIT THIS SECTION
+// ==========================================
+const AD_CONFIG = {
+  // 1. Your Publisher ID
+  publisherId: "ca-pub-8032698155400861", 
+  
+  // 2. Your Ad Slot IDs (Create these in AdSense Dashboard > Ads > By ad unit)
+  slots: {
+    sidebar: "0000000000",      // REPLACE THIS with your Sidebar Ad Unit ID
+    leaderboard: "1234567890"   // REPLACE THIS with your Main Banner Ad Unit ID
+  },
+
+  // 3. Set this to FALSE when you deploy to Vercel to see real ads
+  isTestMode: false 
+};
+// ==========================================
 
 // Simple Hook for LocalStorage
 function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
@@ -144,6 +163,17 @@ export default function App() {
         </div>
         
         <div className="mt-auto p-6 border-t border-slate-100">
+            {/* Sidebar Ad Slot - Small Rectangle */}
+             <div className="mb-4">
+              <AdBanner 
+                dataAdClient={AD_CONFIG.publisherId} 
+                dataAdSlot={AD_CONFIG.slots.sidebar}
+                format="rectangle"
+                className="my-0"
+                isTestMode={AD_CONFIG.isTestMode}
+              />
+            </div>
+
             <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-4 text-white shadow-xl shadow-slate-200">
                <p className="text-xs font-semibold text-slate-400 mb-1 uppercase tracking-wide">Daily Goal</p>
                <div className="flex justify-between items-end mb-2">
@@ -161,6 +191,14 @@ export default function App() {
       <div className="flex-1 flex flex-col h-screen overflow-hidden relative bg-slate-50/50">
         <main className="flex-1 overflow-y-auto p-4 pb-32 md:p-10 md:pb-10 no-scrollbar scroll-smooth">
             <div className="max-w-4xl mx-auto w-full">
+                 {/* Top Banner Ad - Leaderboard */}
+                 <AdBanner 
+                    dataAdClient={AD_CONFIG.publisherId}
+                    dataAdSlot={AD_CONFIG.slots.leaderboard}
+                    className="mb-8"
+                    isTestMode={AD_CONFIG.isTestMode}
+                 />
+                 
                  {renderContent()}
             </div>
         </main>
